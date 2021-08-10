@@ -18,13 +18,14 @@ dim sql
 curaction = request("action")
 
 if curaction = "newsave" then
-  		sql = "DELETE FROM reagent WHERE ID=" + Request("ID")
-     if IsNumeric(request("ID")) then
+	
+	sql = "DELETE FROM reagent WHERE ID=" + Request("ID")
+    if IsNumeric(request("ID")) then
 		conn.execute sql
 		if err.number <> 0 then
 			response.write "<script language=javascript> alert('无法删除,数据库操作出错。'); history.back(); </script>"
 		else
-		   Response.write "<script language=javascript> alert('记录已经删除。'); </script>"
+			response.write "<script language=javascript> alert('记录已经删除。'); </script>"
 		end if
 	else
 		response.write "<script language=javascript> alert('请输入整数型ID！'); history.back(); </script>"
@@ -41,7 +42,7 @@ end if
 <table align=center cellspacing="0" cellpadding="0" border="0" width="609">
 
 <tr>
-    <td width=200 align="left"><p align="center"><b><font size="2">要删除的记录ID：</font></b></p>
+    <td width=200 align="left"><p align="right"><b><font size="2">输入要删除的记录ID：</font></b></p>
     </td>
     <td width=405 align="left"> <input type="Text" name="ID" size=37 ></td>
 </tr>

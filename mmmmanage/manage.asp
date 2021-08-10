@@ -2,7 +2,6 @@
 <html>
 
 <head>
-
 <meta HTTP-EQUIV="Content-Type" content="text/html; charset=gb2312">
 <title>MMM组试剂管理系统</title>
 <meta name="Microsoft Theme" content="none, default">
@@ -31,9 +30,11 @@
   </tr>
   <tr> 
     <td width="27%" nowrap align="center"><font face="汉鼎简隶变" color="#800080"><b>管理员密码：</b></font></td>
+          
   </center>
+          
     <td width="73%" nowrap align="left"> 
-      <p align="left">
+      <p align="left"> 
       <input type="password" name="password" size="15" class="smallInput">
       </p>
   </td>

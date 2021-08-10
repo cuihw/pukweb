@@ -2,6 +2,7 @@
 <% option explicit %>
 <!--#include file="database1.asp"-->
 <%
+    'wangbw mmm123 
 	dim sql
 	dim rs
 	

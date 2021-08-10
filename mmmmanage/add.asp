@@ -60,56 +60,55 @@ end if
 <table align=center cellspacing="0" border="0" width="913" cellpadding="0">
 
 <tr>
-    <td width=99 align="right"><b><font size="2">中文名：</font></b></td>
-    <td width=814> <font size="2"> <input type="Text" name="cname" size=78 >
-      <font color="#FF0000">*</font></font>
+    <td width=89 align="right"><b><font size="2">试剂中文名：</font></b></td>
+    <td width=824> <font size="2"> <input type="Text" name="cname" size=78 >
+      （必填）</font>
       </td>
 </tr>
 
 <tr>
-    <td width=99 align="right"><b><font size="2">英文名：</font></b></td>
-    <td width=814><font size="2"> <input type="Text" name="ename" size=78 >  <font color="#FF0000">*</font></font>
+    <td width=89 align="right"><b><font size="2">试剂英文名：</font></b></td>
+    <td width=824><font size="2"> <input type="Text" name="ename" size=78 > （必填）</font>
     </td>
 </tr>
 
 <tr>
-    <td width=99 align="right"><b><font size="2">CAS-No：</font></b></td>
-    <td width=814> <font size="2"> <input type="Text" name="casno" size=78 >  </font></td>
+    <td width=89 align="right"><b><font size="2">CAS-No：</font></b></td>
+    <td width=824> <font size="2"> <input type="Text" name="casno" size=78 >  </font></td>
 </tr>
 
 <tr>
-    <td width=99 align="right"><b><font size="2">分子式：</font></b></td>
+    <td width=89 align="right"><b><font size="2">分子式：</font></b></td>
     
-    <td width=814> <font size="2"> <input type="Text" name="mformular" size=78 >  
-      <font color="#FF0000">*</font>
+    <td width=824> <font size="2"> <input type="Text" name="mformular" size=78 > （必填）
       </font>
     </td>
 </tr>
 
 <tr>
-    <td width=99 align="right"><b><font size="2">分子量：</font></b></td>
-    <td width=814> <font size="2"> <input type="Text" name="mweight" size=78 >  &nbsp;  
+    <td width=89 align="right"><b><font size="2">分子量：</font></b></td>
+    <td width=824> <font size="2"> <input type="Text" name="mweight" size=78 >  （请输入正实数，必填）  
     </font>
     </td>
 </tr>
 
 <tr>
-    <td width=99 align="right"><b><font size="2">存放地点：</font></b></td>
-    <td width=814> <font size="2"> <input type="Text" name="place" size=78 >  <font color="#FF0000">*</font>
+    <td width=89 align="right"><b><font size="2">存放地点：</font></b></td>
+    <td width=824> <font size="2"> <input type="Text" name="place" size=78 > （必填）
 	</font>
 	</td>
 </tr>
 
 <tr>
-    <td width=99 align="right"><b><font size="2">购买人：</font></b></td>
-    <td width=814> <font size="2"> <input type="Text" name="buyer" size=78 > 
+    <td width=89 align="right"><b><font size="2">购买人：</font></b></td>
+    <td width=824> <font size="2"> <input type="Text" name="buyer" size=78 > 
 	</font>
 	</td>
 </tr>
 
 <tr>
-    <td width=99 align="right"><b><font size="2">备注：</font></b></td>
-    <td width=814> <font size="2"> <input type="Text" name="other" size=78 >
+    <td width=89 align="right"><b><font size="2">备注：</font></b></td>
+    <td width=824> <font size="2"> <input type="Text" name="other" size=78 >
       </font>
     </td>
 </tr>
@@ -125,9 +124,6 @@ end if
 set rs = nothing
 call endconnection()
  %>
-
+ 
 <p>　</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-<font size="2"><font color="#FF0000">*</font></font>&nbsp; 
-表示必填项目，如有可能，请把试剂种类（酸类，醇类等）和购买日期填入备注，以便于搜索</p>
 </body>

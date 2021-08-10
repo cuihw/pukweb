@@ -13,13 +13,14 @@
 
 <tr>
     <td width=160 align="left">
-      <p align="right"><b><font size="2">要修改的记录ID：</font></b></p>
+      <p align="right"><b><font size="2">输入要修改的记录ID：</font></b></p>
     </td>
     <td width=221> <font size="2"> <input type="Text" name="IDW" size=28 ></font></td>
     <td width="43">
     <input type="Hidden" name="action" value= "display" >
 	<input type="Submit" name="edit" value="修改">
     </td>
+
 </tr>
 
 </table>
@@ -27,8 +28,6 @@
 <p>　</p>
 
 </body>
-
-
 
 
 

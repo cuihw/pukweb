@@ -9,7 +9,7 @@
 <meta name="Microsoft Border" content="none">
 </head>
 <body topmargin="15">
-<h5 align="center"><font face="隶书" size="5"> 试剂查询</font></h5>
+<h5 align="center"><font face="隶书" size="5"> 试剂查询系统</font></h5>
 
 <form "frm_sch" action="searchre.asp" method="POST">
 <table align=center cellspacing="0" border="0" width="721" cellpadding="0">
@@ -24,7 +24,7 @@
 <tr><td align=center colspan="2" width="717" >
 <input type="Hidden" name="action" value= "newsave" >
     <p align="left" style="margin-top: 2; margin-bottom: 2">
-<font size="2" face="楷体_GB2312">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+<font size="2" face="楷体_GB2312">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    
 （请输入试剂记录中的任何字段即可。）</font></p>
     <p style="margin-top: 2; margin-bottom: 2">
 <input type="Submit" name="editsave" value="检索"></p>
