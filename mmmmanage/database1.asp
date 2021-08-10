@@ -30,4 +30,14 @@
       set conn=nothing
   end sub
   
+  public Function updateSessionIdsql(ByVal sessionId, ByVal name)
+       dim sql
+       sql = "UPDATE siteman SET sessionId='"+ sessionId +  "'  " + "WHERE uid='" + name + "'"
+
+	   conn.execute sql
+       '函数的返回值是通过函数名来返回的
+       updateSessionIdsql = err.number
+  end Function
+
+
 %>
