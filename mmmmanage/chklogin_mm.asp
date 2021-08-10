@@ -8,12 +8,10 @@
 
 <meta HTTP-EQUIV="Content-type" content="text/html; charset=gb2312">
 <%
-	dim sql
-	dim rs
+	dim sql,  rs
 
-    dim name
+    dim name , password
     name = request("uid")
-    dim password
 	password = request("password")
 	
 	public Function Jslog(ByVal msg) 
@@ -30,8 +28,9 @@
         dim crypt
         set crypt = new crypto
 
-        dim salt
-        salt = password & Now
+        dim salt, nowTime
+        nowTime =  Now
+        salt = password & nowTime
         call Log("salt: " & salt)
 
         dim md5Result
@@ -41,13 +40,12 @@
         call updateSessionIdsql(md5Result, name)
 
         set crypt = nothing
-        updateSessionId = md5Result
+        updateSessionId = md5Result & ", nowTime: " & nowTime
 	end Function
 
     Public Function  loginSuccessfully(ByVal  isLogin , ByVal  message)
         if isLogin then
             dim passport
-
             passport = updateSessionId(name, password)
             response.write "ret: OK "  + ", message: " + message + ", passport: " + passport
         else
@@ -70,6 +68,5 @@
         rs.close
         set rs=nothing
 	end if
-
 	call endConnection()
 %>
