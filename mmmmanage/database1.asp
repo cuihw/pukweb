@@ -39,5 +39,15 @@
        updateSessionIdsql = err.number
   end Function
 
+  public Function verifySessionId(ByVal sessionId) 
+       verifySessionId = False
+       dim sql, rs
+       sql = "SELECT * FROM siteman WHERE sessionId='"+ sessionId +  "'"
+       set rs=server.createobject("adodb.recordset")
+       rs.open sql,conn,1,1
+       if rs.RecordCount > 0 then
+	       verifySessionId = true
+       end if
+  end Function
 
 %>

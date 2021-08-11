@@ -1,5 +1,4 @@
-<%@ Language=VBScript %>
-
+<%@ Language=VBScript CODEPAGE="936" %>
 <% option explicit %>
 <!--#include file="database1.asp"-->
 <!--#include file="Jslog.asp"-->
@@ -18,7 +17,6 @@
 	sql="select * from siteman where uid='" & name & "' and pwd='" & password & "' "
     rs.open sql,conn,1,1
 
-    
     dim JSON
     set JSON = New JSONobject
 
@@ -28,7 +26,7 @@
     end Function
     '=======================
     private Function  updateSessionId(ByVal name, ByVal password)
-        jslog("make md5 crypto string: " & name & ", " & password)
+        call Log("make md5 crypto string: " & name & ", " & password)
 
         dim crypt, rets
         set crypt = new crypto
@@ -36,11 +34,11 @@
         dim salt, nowTime
         nowTime =  Now
         salt = password & nowTime
-        jslog("salt: " & salt)
+        call Log("salt: " & salt)
 
         dim md5Result
         md5Result = crypt.hashPassword(password, "MD5", "b64")
-        jslog("md5 crypto: " & md5Result)
+        call Log("md5 crypto: " & md5Result)
 
         call updateSessionIdsql(md5Result, name)
 
