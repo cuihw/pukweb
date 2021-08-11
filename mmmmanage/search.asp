@@ -36,7 +36,7 @@
   </td></tr>  
 </table>
 </form>
-<% 
+<%
 dim curaction,rs,text1,tmp
 dim sql
 curaction = request("action")

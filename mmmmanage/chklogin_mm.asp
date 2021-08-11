@@ -3,7 +3,8 @@
 <% option explicit %>
 <!--#include file="database1.asp"-->
 <!--#include file="Jslog.asp"-->
-<!--#include file = "Crypto.Class.asp" -->
+<!--#include file ="Crypto.Class.asp" -->
+<!--#include file ="jsonObject.class.asp" -->
 
 
 <meta HTTP-EQUIV="Content-type" content="text/html; charset=gb2312">
@@ -22,10 +23,18 @@
 	sql="select * from siteman where uid='" & name & "' and pwd='" & password & "' "
     rs.open sql,conn,1,1
 
+    
+    dim JSON
+    set JSON = New JSONobject
+    private Function putJsonValue(ByVal key, ByVal value) 
+        call JSON.Add( key, value)
+        putJsonValue = JSON.Serialize() ' this will contain the string representation of the JSON object
+    end Function
+    '=======================
     private Function  updateSessionId(ByVal name, ByVal password)
         call Log("make md5 crypto string: " & name & ", " & password)
 
-        dim crypt
+        dim crypt, rets
         set crypt = new crypto
 
         dim salt, nowTime
@@ -40,27 +49,36 @@
         call updateSessionIdsql(md5Result, name)
 
         set crypt = nothing
-        updateSessionId = md5Result & ", nowTime: " & nowTime
+        rets = putJsonValue ("md5Result", md5Result)
+        updateSessionId = putJsonValue( "nowTime",  nowTime)
 	end Function
 
     Public Function  loginSuccessfully(ByVal  isLogin , ByVal  message)
+        dim session, rets
+        
         if isLogin then
-            dim passport
-            passport = updateSessionId(name, password)
-            response.write "ret: OK "  + ", message: " + message + ", passport: " + passport
+            session = updateSessionId(name, password)
+            rets = putJsonValue ("ret", "OK")
+            
+            'rets = putJsonValue ("message", message)
+            'rets = putJsonValue ("session", session)
+            'call JSON.wirte()
         else
-            response.write "login Failed! "& message
+            rets = putJsonValue ("ret", "error")
 	    end if
+        
+        rets = putJsonValue ("message", message)
+        response.write rets
     end Function
 
     if err.number<>0 then 
-		call loginSuccessfully (False, "数据库操作失败："&err.description)
+		call loginSuccessfully (False, "database error："&err.description)
     else
 		if rs.bof and rs.eof then
-		call loginSuccessfully (False, "对不起，请输入正确的用户名和口令。")
+		call loginSuccessfully (False, "Please input correctly username and password.")
 	    else
 			if rs.RecordCount<1 then
-		        call loginSuccessfully (False, "对不起，请输入正确的用户名和口令。")
+		        call loginSuccessfully (False, "Please input correctly username and password.")
 			else
     		    call loginSuccessfully (True, "adminOK")
 			end if
