@@ -6,7 +6,6 @@
 <!--#include file ="Crypto.Class.asp" -->
 <!--#include file ="jsonObject.class.asp" -->
 
-
 <meta HTTP-EQUIV="Content-type" content="text/html; charset=gb2312">
 <%
 	dim sql,  rs
@@ -14,10 +13,6 @@
     dim name , password
     name = request("uid")
 	password = request("password")
-	
-	public Function Jslog(ByVal msg) 
-	response.write "<script language=javascript> console.log('" & msg & "') </script>"
-	end Function
 
 	set rs=server.createobject("adodb.recordset")
 	sql="select * from siteman where uid='" & name & "' and pwd='" & password & "' "
@@ -26,13 +21,14 @@
     
     dim JSON
     set JSON = New JSONobject
+
     private Function putJsonValue(ByVal key, ByVal value) 
         call JSON.Add( key, value)
         putJsonValue = JSON.Serialize() ' this will contain the string representation of the JSON object
     end Function
     '=======================
     private Function  updateSessionId(ByVal name, ByVal password)
-        call Log("make md5 crypto string: " & name & ", " & password)
+        jslog("make md5 crypto string: " & name & ", " & password)
 
         dim crypt, rets
         set crypt = new crypto
@@ -40,11 +36,11 @@
         dim salt, nowTime
         nowTime =  Now
         salt = password & nowTime
-        call Log("salt: " & salt)
+        jslog("salt: " & salt)
 
         dim md5Result
         md5Result = crypt.hashPassword(password, "MD5", "b64")
-        call Log("md5 crypto: " & md5Result)
+        jslog("md5 crypto: " & md5Result)
 
         call updateSessionIdsql(md5Result, name)
 
@@ -88,3 +84,4 @@
 	end if
 	call endConnection()
 %>
+
