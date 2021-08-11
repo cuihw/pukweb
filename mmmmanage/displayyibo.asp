@@ -23,32 +23,32 @@ rs.open sql, conn, 1, 1
 	do while Not rs.eof
 		if rs("kybstate") = "已拨" AND rs("cwbstate") = "已拨" then
 		response.write "<td><font size=2>" + cstr(rs("ID")) + "</font></td>"
-		if rs("lkdw") <> "" then
+		if rs("lkdw") <> "" then   'department of money form
 			response.write "<td><font size=2>" + rs("lkdw") + "</font></td>"
 		else
 			response.write "<td>" + " " + "</td>"
 		end if
-		if cstr(rs("jine")) <> "" then
+		if cstr(rs("jine")) <> "" then   ' number of money
 			response.write "<td align=right><font size=2>"  + cstr(FormatCurrency(rs("jine"),0)) + "</font></td>"
 		else
 			response.write "<td>" + " " + "</td>"
 		end if
-		if rs("sksj") <> "" then
+		if rs("sksj") <> "" then       ' time of money arrived
 			response.write "<td><font size=2>" + rs("sksj") + "</font></td>"
 		else
 			response.write "<td>" + " " + "</td>"
 		end if
-		if rs("skdw") <> "" then
+		if rs("skdw") <> "" then           'department of money to
 			response.write "<td><font size=2>" + rs("skdw") + "</font></td>"
 		else
 			response.write "<td>" + " " + "</td>"
 		end if
-		if rs("yongtu") <> "" then
+		if rs("yongtu") <> "" then            ' what is the usage.
 			response.write "<td><font size=2>" + rs("yongtu") + "</font></td>"
 		else
 			response.write "<td>" + "   " + "</td>"
 		end if
-		if rs("kybstate") <> "" then
+		if rs("kybstate") <> "" then            ' Research Department state.
 				if rs("kybstate") = "已拨" then
 					response.write "<td><font size=2 color=red>" + rs("kybstate") + "</font></td>"
 				else
@@ -57,7 +57,7 @@ rs.open sql, conn, 1, 1
 		else
 			response.write "<td><font size=2>" + " " + "</td>"
 		end if
-		if rs("cwbstate") <> "" then
+		if rs("cwbstate") <> "" then          'Finance Department state.
 			if rs("cwbstate") = "已拨" then
 					response.write "<td><font size=2 color=red>" + rs("cwbstate") + "</font></td>"
 				else
@@ -66,7 +66,7 @@ rs.open sql, conn, 1, 1
 		else
 			response.write "<td>" + " " + "</td>"
 		end if
-		if rs("other") <> "" then
+		if rs("other") <> "" then   'other comment
 			response.write "<td><font size=2>" + rs("other") + "</font></td></tr>"
 		else
 			response.write "<td>" + " " + "</td></tr>"
