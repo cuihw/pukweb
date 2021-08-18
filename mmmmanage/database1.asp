@@ -19,11 +19,11 @@
            if err then 
               err.clear
               set conn=nothing
-			   response.write "数据库连接出错！"
+			  response.write "数据库连接出错！"
               Response.End 
            end if
        end if   
-  end sub
+    end sub
 	
   sub endConnection()
       conn.close
@@ -33,7 +33,6 @@
   public Function updateSessionIdsql(ByVal sessionId, ByVal name)
        dim sql
        sql = "UPDATE siteman SET sessionId='"+ sessionId +  "'  " + "WHERE uid='" + name + "'"
-
 	   conn.execute sql
        '函数的返回值是通过函数名来返回的
        updateSessionIdsql = err.number
