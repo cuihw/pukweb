@@ -27,6 +27,8 @@ end if
 
 set rs = nothing
 
+JSON.add "ret", ret
+JSON.add "message", message
 JSON.write
 call endconnection()
 %>
