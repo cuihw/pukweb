@@ -1,4 +1,3 @@
-
 <%@ Language=VBScript CODEPAGE="936" %>
 <!--#include file="database1.asp"-->
 <!--#include file="change.inc"-->
