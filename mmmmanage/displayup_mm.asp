@@ -6,21 +6,27 @@
 <!--#include file ="Crypto.Class.asp" -->
 <!--#include file ="jsonObject.class.asp" -->
 
-<html>
 
 <% 
-dim rs, rs1, sql, sql1, sql2, sql3, sql4
+dim rs, sql , message, ret
 set rs = server.createobject("adodb.recordset")
 sql = "SELECT * FROM reagent "
 rs.open sql, conn, 1, 1
 
+
+if err.number <> 0 then
+    ret = "error"
+    message = "database error."
+else
+    ret = "ok"
+    message = "show all item of database."
     dim JSON
     set JSON = New JSONobject
     JSON.LoadRecordset rs
-      
-    JSON.write 
-    set rs = nothing
+end if
+
+set rs = nothing
+
+JSON.write
 call endconnection()
 %>
-</body>
-</HTML>

@@ -5,9 +5,6 @@
 <!--#include file ="Crypto.Class.asp" -->
 <!--#include file ="jsonObject.class.asp" -->
 
-
-<!--modify one recode item data -->
-
 <% 
 ' check the session was legal.
 ' check the id was right.
@@ -27,7 +24,7 @@ set JSON = New JSONobject
         ret = "error"
         message = "user was not login"
     else
-         '========================================
+        '========================================
         ' modify data
         dim cname, ename,casno,mformula,mweight, place, buyer, other ,  id
 
@@ -55,6 +52,7 @@ set JSON = New JSONobject
         if err.number <> 0 then
             message = "update data failed."
         else 
+            ret = "ok"
             message = "update data sucessed."
         end if
 
