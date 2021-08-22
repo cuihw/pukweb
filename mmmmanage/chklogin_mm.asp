@@ -4,8 +4,8 @@
 <!--#include file="Jslog.asp"-->
 <!--#include file ="Crypto.Class.asp" -->
 <!--#include file ="jsonObject.class.asp" -->
+<!--#include file ="class_md5.asp" -->
 
-<meta HTTP-EQUIV="Content-type" content="text/html; charset=gb2312">
 <%
 	dim sql,  rs
 
@@ -26,19 +26,18 @@
     end Function
     '=======================
     private Function  updateSessionId(ByVal name, ByVal password)
-        call Log("make md5 crypto string: " & name & ", " & password)
-
+        
         dim crypt, rets
         set crypt = new crypto
 
         dim salt, nowTime
         nowTime =  Now
         salt = password & nowTime
-        call Log("salt: " & salt)
 
-        dim md5Result
-        md5Result = crypt.hashPassword(password, "MD5", "b64")
-        call Log("md5 crypto: " & md5Result)
+        Dim objMD5, md5Result
+        Set objMD5 = New MD5
+        objMD5.Text = password & nowTime
+        md5Result = objMD5.HEXMD5
 
         call updateSessionIdsql(md5Result, name)
 
@@ -53,10 +52,6 @@
         if isLogin then
             session = updateSessionId(name, password)
             rets = putJsonValue ("ret", "OK")
-            
-            'rets = putJsonValue ("message", message)
-            'rets = putJsonValue ("session", session)
-            'call JSON.wirte()
         else
             rets = putJsonValue ("ret", "error")
 	    end if
@@ -80,6 +75,7 @@
         rs.close
         set rs=nothing
 	end if
+
 	call endConnection()
 %>
 

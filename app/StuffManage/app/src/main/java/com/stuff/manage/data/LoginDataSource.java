@@ -2,6 +2,7 @@ package com.stuff.manage.data;
 
 import android.util.Log;
 
+import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
@@ -29,6 +30,10 @@ public class LoginDataSource {
                         @Override
                         public void onSuccess(Response<String> response) {
                             Log.d(TAG, "response : " +  response);
+                            Gson gson = new Gson();
+                            LoginResult result = gson.fromJson(String.valueOf(response), LoginResult.class);
+
+                            Log.d(TAG, "result : " +  result);
                         }
                     });
 
