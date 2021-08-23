@@ -17,7 +17,7 @@ import static android.content.ContentValues.TAG;
  */
 public class LoginDataSource {
 
-    public Result<LoggedInUser> login(String username, String password) {
+    public boolean login(String username, String password) {
 
         try {
             // TODO: handle loggedInUser authentication
@@ -32,20 +32,23 @@ public class LoginDataSource {
                             String body =  response.body();
                             Log.d(TAG, "response: " +  body);
                             Gson gson = new Gson();
-                            LoginResult result = gson.fromJson(body, LoginResult.class);
+                            LoginResponse result = gson.fromJson(body, LoginResponse.class);
 
                             Log.d(TAG, "result : " +  result);
+                            notifyLoginResponse(username, result);
                         }
                     });
-            LoggedInUser fakeUser =
-                    new LoggedInUser(
-                            java.util.UUID.randomUUID().toString(),
-                            "Jane Doe");
-
-            return new Result.Success<>(fakeUser);
+            return true;
         } catch (Exception e) {
-            return new Result.Error(new IOException("Error logging in", e));
+            return false;
         }
+    }
+
+    private void notifyLoginResponse(String username,  LoginResponse result) {
+        LoginRepository repo = LoginRepository.getInstance(this);
+        LoggedInUser loggedInUser = new LoggedInUser(result.getMd5Result() ,  username);
+        loggedInUser.setResponse(result);
+        repo.setLoggedInUser(loggedInUser);
     }
 
     public void logout() {

@@ -1,5 +1,7 @@
 package com.stuff.manage.data;
 
+import android.util.Log;
+
 import com.stuff.manage.data.model.LoggedInUser;
 
 /**
@@ -8,9 +10,11 @@ import com.stuff.manage.data.model.LoggedInUser;
  */
 public class LoginRepository {
 
+    private static final String TAG = "";
     private static volatile LoginRepository instance;
 
     private LoginDataSource dataSource;
+    OnLogin onLoginListener;
 
     // If user credentials will be cached in local storage, it is recommended it be encrypted
     // @see https://developer.android.com/training/articles/keystore
@@ -36,19 +40,26 @@ public class LoginRepository {
         user = null;
         dataSource.logout();
     }
-
-    private void setLoggedInUser(LoggedInUser user) {
+    public LoggedInUser getUser() {
+        return user;
+    }
+    public void setLoggedInUser(LoggedInUser user) {
         this.user = user;
-        // If user credentials will be cached in local storage, it is recommended it be encrypted
-        // @see https://developer.android.com/training/articles/keystore
+        boolean islogined = "OK".equalsIgnoreCase(user.getResponse().getRet());
+        Log.d(TAG ,"islogined: " + islogined);
+        // notify the onLoginListener
+        if (onLoginListener != null) {
+            onLoginListener.onlogin(islogined);
+        }
     }
 
-    public Result<LoggedInUser> login(String username, String password) {
+    public boolean login(String username, String password) {
         // handle login
-        Result<LoggedInUser> result = dataSource.login(username, password);
-        if (result instanceof Result.Success) {
-            setLoggedInUser(((Result.Success<LoggedInUser>) result).getData());
-        }
+        boolean result = dataSource.login(username, password);
         return result;
+    }
+
+    public void setOnLoginLister(OnLogin onLogin) {
+        onLoginListener = onLogin;
     }
 }
