@@ -29,9 +29,10 @@ public class LoginDataSource {
                     .execute(new StringCallback(){
                         @Override
                         public void onSuccess(Response<String> response) {
-                            Log.d(TAG, "response : " +  response);
+                            String body =  response.body();
+                            Log.d(TAG, "response: " +  body);
                             Gson gson = new Gson();
-                            LoginResult result = gson.fromJson(String.valueOf(response), LoginResult.class);
+                            LoginResult result = gson.fromJson(body, LoginResult.class);
 
                             Log.d(TAG, "result : " +  result);
                         }

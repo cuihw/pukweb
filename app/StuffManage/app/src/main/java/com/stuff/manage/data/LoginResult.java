@@ -2,7 +2,7 @@ package com.stuff.manage.data;
 import java.util.Date;
 public class LoginResult {
     private String md5Result;
-    private Date nowTime;
+    private String nowTime;
     private String ret;
     private String message;
     public void setMd5Result(String md5Result) {
@@ -12,10 +12,10 @@ public class LoginResult {
         return md5Result;
     }
 
-    public void setNowTime(Date nowTime) {
+    public void setNowTime(String nowTime) {
         this.nowTime = nowTime;
     }
-    public Date getNowTime() {
+    public String getNowTime() {
         return nowTime;
     }
 
