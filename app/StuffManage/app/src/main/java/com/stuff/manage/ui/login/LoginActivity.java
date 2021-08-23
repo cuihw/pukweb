@@ -25,8 +25,6 @@ import android.widget.Toast;
 
 import com.stuff.manage.MainActivity;
 import com.stuff.manage.R;
-import com.stuff.manage.ui.login.LoginViewModel;
-import com.stuff.manage.ui.login.LoginViewModelFactory;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -76,7 +74,7 @@ public class LoginActivity extends AppCompatActivity {
                 setResult(Activity.RESULT_OK);
 
                 // Complete and destroy login activity once successful
-                // finish();
+                finish();
                 goMainActivity();
             }
         });

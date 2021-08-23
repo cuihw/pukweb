@@ -1,5 +1,6 @@
 package com.stuff.manage.data.model;
 
+import com.google.gson.Gson;
 import com.stuff.manage.data.LoginResponse;
 
 /**
@@ -33,5 +34,14 @@ public class LoggedInUser {
         this.response = response;
     }
 
-    
+    public String toGsonString() {
+        Gson gson = new Gson();
+        return gson.toJson(this);
+    }
+
+    public static LoggedInUser toObject(String json) {
+        Gson gson = new Gson();
+        return gson.fromJson(json, LoggedInUser.class);
+    }
+
 }
