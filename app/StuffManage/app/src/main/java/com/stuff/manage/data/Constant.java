@@ -8,6 +8,9 @@ public class Constant {
     // {"ret":"error","message":"Please input correctly username and password."}
     public final static String LOGIN =SERVER_ADDRESS + "chklogin_mm.asp";
 
+    public final static String SHARE_NAME ="application";
+
+    public static final String LOGIN_DATA = "login_data";
 
 
 }

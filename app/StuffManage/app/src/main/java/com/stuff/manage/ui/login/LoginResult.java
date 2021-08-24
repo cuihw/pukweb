@@ -1,6 +1,10 @@
 package com.stuff.manage.ui.login;
 
+import android.util.Log;
+
 import androidx.annotation.Nullable;
+
+import com.stuff.manage.data.model.LoggedInUser;
 
 /**
  * Authentication result : success (user details) or error message.
@@ -11,6 +15,8 @@ class LoginResult {
     @Nullable
     private Integer error;
 
+    private LoggedInUser data;
+
     LoginResult(@Nullable Integer error) {
         this.error = error;
     }
@@ -19,9 +25,17 @@ class LoginResult {
         this.success = success;
     }
 
+    LoginResult(@Nullable LoggedInUserView success, LoggedInUser data ) {
+        this.success = success;
+        this.data = data;
+    }
+
     @Nullable
     LoggedInUserView getSuccess() {
         return success;
+    }
+    LoggedInUser getData() {
+        return data;
     }
 
     @Nullable

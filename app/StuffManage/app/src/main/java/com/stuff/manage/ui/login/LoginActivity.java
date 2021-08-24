@@ -5,7 +5,9 @@ import android.app.Activity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -13,6 +15,7 @@ import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
@@ -25,6 +28,9 @@ import android.widget.Toast;
 
 import com.stuff.manage.MainActivity;
 import com.stuff.manage.R;
+import com.stuff.manage.data.Constant;
+import com.stuff.manage.data.LoginRepository;
+import com.stuff.manage.data.model.LoggedInUser;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -62,20 +68,24 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onChanged(@Nullable LoginResult loginResult) {
                 if (loginResult == null) {
+
+                    clearPersistLoginData();
                     return;
                 }
                 loadingProgressBar.setVisibility(View.GONE);
                 if (loginResult.getError() != null) {
+                    clearPersistLoginData();
                     showLoginFailed(loginResult.getError());
                 }
                 if (loginResult.getSuccess() != null) {
                     updateUiWithUser(loginResult.getSuccess());
+                    LoggedInUser data = loginResult.getData();
+                    persistLoginData(data);
+                    goMainActivity();
+                    finish();
                 }
-                setResult(Activity.RESULT_OK);
-
+                // setResult(Activity.RESULT_OK);
                 // Complete and destroy login activity once successful
-                finish();
-                goMainActivity();
             }
         });
 
@@ -118,6 +128,8 @@ public class LoginActivity extends AppCompatActivity {
                         passwordEditText.getText().toString());
             }
         });
+
+        // get Login data from the persist
     }
 
     private void goMainActivity() {
@@ -133,5 +145,33 @@ public class LoginActivity extends AppCompatActivity {
 
     private void showLoginFailed(@StringRes Integer errorString) {
         Toast.makeText(getApplicationContext(), errorString, Toast.LENGTH_SHORT).show();
+    }
+
+    private void persistLoginData(LoggedInUser data) {
+        SharedPreferences sp = this.getSharedPreferences(Constant.SHARE_NAME, Context.MODE_PRIVATE );
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString(Constant.LOGIN_DATA, data.toGsonString());
+        editor.apply();
+    }
+
+    private void clearPersistLoginData(){
+        SharedPreferences sp = this.getSharedPreferences(Constant.SHARE_NAME, Context.MODE_PRIVATE );
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString(Constant.LOGIN_DATA, "");
+        editor.apply();
+    }
+
+    private LoggedInUser getLoginDataFromPersist(){
+        SharedPreferences sp = this.getSharedPreferences(Constant.SHARE_NAME, Context.MODE_PRIVATE );
+        String dataString = sp.getString(Constant.LOGIN_DATA, "");
+
+        if (TextUtils.isEmpty(dataString))  return null;
+        try{
+            LoggedInUser data = LoggedInUser.toObject(dataString);
+            return data;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }
