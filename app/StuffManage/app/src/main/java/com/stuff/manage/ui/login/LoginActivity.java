@@ -35,10 +35,20 @@ import com.stuff.manage.data.model.LoggedInUser;
 public class LoginActivity extends AppCompatActivity {
 
     private LoginViewModel loginViewModel;
+    private LoggedInUser data;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (isAlreadyLoggedin()) {
+            String welcome = getString(R.string.welcome) + data.getDisplayName();
+            // TODO : initiate successful logged in experience
+            Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
+            goMainActivity();
+            finish();
+        }
+
         setContentView(R.layout.activity_login);
         loginViewModel = new ViewModelProvider(this, new LoginViewModelFactory())
                 .get(LoginViewModel.class);
@@ -68,7 +78,6 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onChanged(@Nullable LoginResult loginResult) {
                 if (loginResult == null) {
-
                     clearPersistLoginData();
                     return;
                 }
@@ -79,7 +88,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 if (loginResult.getSuccess() != null) {
                     updateUiWithUser(loginResult.getSuccess());
-                    LoggedInUser data = loginResult.getData();
+                    data = loginResult.getData();
                     persistLoginData(data);
                     goMainActivity();
                     finish();
@@ -159,6 +168,13 @@ public class LoginActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = sp.edit();
         editor.putString(Constant.LOGIN_DATA, "");
         editor.apply();
+    }
+
+    private boolean isAlreadyLoggedin(){
+        data = getLoginDataFromPersist();
+        if (data == null) return false;
+        if (data.getResponse() == null) return false;
+        return  ("OK".equalsIgnoreCase(data.getResponse().getRet()));
     }
 
     private LoggedInUser getLoginDataFromPersist(){
