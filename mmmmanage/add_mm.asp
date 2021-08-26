@@ -1,4 +1,4 @@
-<%@ Language=VBScript CODEPAGE="936" %>
+<%@ Language=VBScript  %>
 <% option explicit %>
 <!--#include file="database1.asp"-->
 <!--#include file="Jslog.asp"-->
