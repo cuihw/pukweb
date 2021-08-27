@@ -11,6 +11,9 @@ public class Constant {
     // get all
     public final static String GET_ALL_ITEMS =SERVER_ADDRESS + "displayup_mm.asp";
 
+    // delete item
+    public final static String DELETE_ITEMS =SERVER_ADDRESS + "delete_mm.asp";
+
 
     public final static String SHARE_NAME ="application";
 

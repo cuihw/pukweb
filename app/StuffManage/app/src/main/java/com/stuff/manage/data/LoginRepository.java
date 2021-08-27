@@ -32,6 +32,10 @@ public class LoginRepository {
         return instance;
     }
 
+    public static LoginRepository getInstance() {
+        return instance;
+    }
+
     public boolean isLoggedIn() {
         if (user == null) return false;
         if (user.getResponse() == null) return  false;

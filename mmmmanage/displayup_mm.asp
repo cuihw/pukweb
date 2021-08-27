@@ -38,13 +38,12 @@ else
   iTotalRecords = 0
 end if
 
-    
     Set rsscroll = Server.CreateObject("ADODB.Recordset")
     Dim strSQLscroll, rsscroll, intRow
     sql = "SELECT COUNT('ID') FROM reagent "
     rsscroll.open sql, conn
 
-'JSON.LoadRecordset rsscroll
+    'JSON.LoadRecordset rsscroll
 
 JSON.add "count",  iTotalRecords
 
