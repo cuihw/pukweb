@@ -31,7 +31,6 @@ public class HomeViewModel extends ViewModel {
         getAllData();
     }
 
-
     public void getAllData() {
         // http://127.0.0.1/mmmmanage/displayup_mm.asp?page=0   size 30;
         OkGo.<String>get(Constant.GET_ALL_ITEMS)
@@ -55,6 +54,7 @@ public class HomeViewModel extends ViewModel {
     public void goNextPage(){
         currentDataPage ++;
     }
+
 
     public void setCurrentDataPage(int page) {
         currentDataPage = page;
@@ -97,7 +97,6 @@ public class HomeViewModel extends ViewModel {
     private void handleDeleteResp(DeleteResp dataResp) {
         deleteResp.setValue(dataResp);
     }
-
 
     public MutableLiveData<DeleteResp> getDeleteResp() {
         return deleteResp;
