@@ -61,7 +61,6 @@ public class StuffAdapter extends BaseAdapter {
         } else {
             view = convertView;
             viewHolder = (ViewHolder) view.getTag(); //重新获取ViewHolder
-
         }
 
         ItemData data = (ItemData) getItem(position);
@@ -70,10 +69,9 @@ public class StuffAdapter extends BaseAdapter {
         } else  {
             viewHolder.cname.setText(data.getCname());
             viewHolder.ename.setText(data.getEname());
-            viewHolder.cname.setText(data.getCname());
-            viewHolder.cname.setText(data.getCname());
-            viewHolder.cname.setText(data.getCname());
-            viewHolder.cname.setText(data.getCname());
+            viewHolder.cas_no.setText("CAS-No: " + data.getCasno());
+            viewHolder.mformula.setText("分子式: " + data.getMformula());
+            viewHolder.place.setText("存放地点: " + data.getPlace());
         }
         return view;
     }
