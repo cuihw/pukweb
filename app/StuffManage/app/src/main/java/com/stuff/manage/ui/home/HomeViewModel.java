@@ -12,6 +12,8 @@ import com.stuff.manage.data.CacheData;
 import com.stuff.manage.data.Constant;
 import com.stuff.manage.data.LoginRepository;
 import com.stuff.manage.data.model.AllDatas;
+import com.stuff.manage.data.model.DeleteResp;
+import com.stuff.manage.tools.StringUtils;
 
 public class HomeViewModel extends ViewModel {
 
@@ -20,16 +22,20 @@ public class HomeViewModel extends ViewModel {
 
     private MutableLiveData<AllDatas> allDatas;
 
+    private MutableLiveData<DeleteResp> deleteResp;
+
     // AllDatas allDatas;
     public HomeViewModel() {
         allDatas = new MutableLiveData<>();
-        getAllData(currentDataPage);
+        deleteResp = new MutableLiveData<>();
+        getAllData();
     }
 
-    private void getAllData(int page) {
+
+    public void getAllData() {
         // http://127.0.0.1/mmmmanage/displayup_mm.asp?page=0   size 30;
         OkGo.<String>get(Constant.GET_ALL_ITEMS)
-                .params("page", page)
+                .params("page", currentDataPage)
                 .execute(new StringCallback(){
                     @Override
                     public void onSuccess(Response<String> response) {
@@ -69,7 +75,7 @@ public class HomeViewModel extends ViewModel {
     public boolean deleteItem(int id) {
 
         // mmmmanage/delete_mm.asp?sessionId=$MD5~P$B64$pw35QN4Ci43BhqCjyKDbLg==$ikzmgEGd2yXlO8VxavImQQ==&ID=2294
-        LoginRepository repo =LoginRepository.getInstance();
+        LoginRepository repo = LoginRepository.getInstance();
         if(repo == null) return false;
 
         String session = repo.getUser().getUserId();
@@ -81,9 +87,20 @@ public class HomeViewModel extends ViewModel {
                     @Override
                     public void onSuccess(Response<String> response) {
                         String body = response.body();
-                        
+                        DeleteResp dataResp = StringUtils.getDataFromString(body, DeleteResp.class);
+                        handleDeleteResp(dataResp);
                     }
                 });
         return true;
     }
+
+    private void handleDeleteResp(DeleteResp dataResp) {
+        deleteResp.setValue(dataResp);
+    }
+
+
+    public MutableLiveData<DeleteResp> getDeleteResp() {
+        return deleteResp;
+    }
+
 }

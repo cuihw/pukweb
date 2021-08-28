@@ -1,7 +1,6 @@
 package com.stuff.manage.data.model;
 
 import com.google.gson.Gson;
-import com.stuff.manage.data.LoginResponse;
 
 /**
  * Data class that captures user information for logged in users retrieved from LoginRepository

@@ -39,7 +39,6 @@ public class LoginRepository {
     public boolean isLoggedIn() {
         if (user == null) return false;
         if (user.getResponse() == null) return  false;
-
         return "OK".equalsIgnoreCase(user.getResponse().getRet());
     }
 
@@ -50,21 +49,16 @@ public class LoginRepository {
     public LoggedInUser getUser() {
         return user;
     }
+
     public void setLoggedInUser(LoggedInUser user) {
         this.user = user;
         boolean islogined = isLoggedIn();
         Log.d(TAG ,"islogined: " + islogined);
 
-        persistLogdata(user);
-
         // notify the onLoginListener
         if (onLoginListener != null) {
             onLoginListener.onlogin(islogined);
         }
-    }
-
-    private void persistLogdata(LoggedInUser user) {
-
     }
 
     public boolean login(String username, String password) {

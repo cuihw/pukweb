@@ -1,4 +1,4 @@
-<%@ Language=VBScript CODEPAGE="utf-8"%>
+<%@ Language=VBScript%>
 <% option explicit %>
 <!--#include file="database1.asp"-->
 <!--#include file="Jslog.asp"-->
@@ -7,8 +7,8 @@
 <!--#include file ="class_md5.asp" -->
 
 <%
+    'CODEPAGE="utf-8"
 	dim sql,  rs
-
     dim name , password
     name = request("uid")
 	password = request("password")

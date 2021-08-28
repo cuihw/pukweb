@@ -13,7 +13,7 @@ class LoginResult {
     @Nullable
     private LoggedInUserView success;
     @Nullable
-    private Integer error;
+    private Integer error;  //"Login failed"
 
     private LoggedInUser data;
 

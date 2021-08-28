@@ -1,5 +1,8 @@
 package com.stuff.manage.tools;
 
+import com.google.gson.Gson;
+import com.stuff.manage.data.model.LoginResponse;
+
 import java.io.UnsupportedEncodingException;
 
 public class StringUtils {
@@ -33,4 +36,9 @@ public class StringUtils {
         return null;
     }
 
+    public static <T> T getDataFromString(String str, Class<T> cls){
+        Gson gson = new Gson();
+        T t = gson.fromJson(str, cls);
+        return t;
+    }
 }

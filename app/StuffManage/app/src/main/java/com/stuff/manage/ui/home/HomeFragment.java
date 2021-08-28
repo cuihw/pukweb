@@ -1,5 +1,6 @@
 package com.stuff.manage.ui.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -17,11 +18,15 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.stuff.manage.MainActivity;
 import com.stuff.manage.R;
 import com.stuff.manage.data.CacheData;
+import com.stuff.manage.data.Constant;
 import com.stuff.manage.data.model.AllDatas;
+import com.stuff.manage.data.model.DeleteResp;
 import com.stuff.manage.data.model.ItemData;
 import com.stuff.manage.ui.adapter.StuffAdapter;
+import com.stuff.manage.ui.login.LoginActivity;
 
 import java.util.List;
 
@@ -56,9 +61,34 @@ public class HomeFragment extends Fragment {
                 updataListView(datas);
             }
         });
+        homeViewModel.getDeleteResp().observe(getViewLifecycleOwner(), new Observer<DeleteResp>() {
+            @Override
+            public void onChanged(DeleteResp deleteResp) {
+                handleDeleteResp(deleteResp);
+            }
+        });
+
 
         initView();
         return root;
+    }
+
+    private void handleDeleteResp(DeleteResp deleteResp) {
+        if (deleteResp.isOk()) {
+            Toast.makeText(getContext(),"delete OK", Toast.LENGTH_SHORT);
+            homeViewModel.getAllData();
+            return;
+        } else {
+            if (deleteResp.getMessage().contains("not login")) {
+                // go to login activity.
+                Toast.makeText(getContext(),deleteResp.getMessage(), Toast.LENGTH_SHORT);
+
+                Intent intent=new Intent(getContext(), LoginActivity.class);
+                intent.putExtra(Constant.CLEAR_LOGIN_DATA, true);
+                startActivity(intent);
+                getActivity().finish();
+            }
+        }
     }
 
     private void updataListView(AllDatas datas) {

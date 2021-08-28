@@ -1,4 +1,4 @@
-<%@ Language=VBScript CODEPAGE="936" %>
+<%@ Language=VBScript %>
 <% option explicit %>
 <!--#include file="database1.asp"-->
 <!--#include file="Jslog.asp"-->
@@ -12,7 +12,7 @@ dim JSON , ret , message, isLogin, sessionId
 set JSON = New JSONobject
 
 id =  Cint(Request("ID"))
-Log "id = " & id
+JSON.add "id", id
 
 sessionId = request("sessionId")
 isLogin = verifySessionId(sessionId)
@@ -22,7 +22,6 @@ if isLogin = False then
     message = "User was not login"
 else
     sql = "DELETE FROM reagent WHERE ID=" + CStr(id)
-    Log "sql : "&sql
 
     conn.execute sql
     if err.number <> 0 then

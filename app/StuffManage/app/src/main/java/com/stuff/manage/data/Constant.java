@@ -20,4 +20,5 @@ public class Constant {
     public static final String LOGIN_DATA = "login_data";
 
 
+    public static final String CLEAR_LOGIN_DATA = "CLEAR_LOGIN_DATA";
 }

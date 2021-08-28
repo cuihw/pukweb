@@ -7,8 +7,8 @@ import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
 import com.stuff.manage.data.model.LoggedInUser;
-
-import java.io.IOException;
+import com.stuff.manage.data.model.LoginResponse;
+import com.stuff.manage.tools.StringUtils;
 
 import static android.content.ContentValues.TAG;
 
@@ -31,11 +31,22 @@ public class LoginDataSource {
                         public void onSuccess(Response<String> response) {
                             String body =  response.body();
                             Log.d(TAG, "response: " +  body);
-                            Gson gson = new Gson();
-                            LoginResponse result = gson.fromJson(body, LoginResponse.class);
-
+                            LoginResponse result = StringUtils.getDataFromString(body,LoginResponse.class);
                             Log.d(TAG, "result : " +  result);
                             notifyLoginResponse(username, result);
+                        }
+
+                        @Override
+                        public void onError(Response<String> response) {
+                            Log.d(TAG, "onError: " +  response.body());
+                            notifyLoginResponse("", null);
+                            super.onError(response);
+                        }
+
+                        @Override
+                        public void onFinish() {
+                            Log.d(TAG, "onFinish");
+                            super.onFinish();
                         }
                     });
             return true;
@@ -46,6 +57,11 @@ public class LoginDataSource {
 
     private void notifyLoginResponse(String username,  LoginResponse result) {
         LoginRepository repo = LoginRepository.getInstance(this);
+
+        if (result == null) {
+            repo.setLoggedInUser(null);
+            return;
+        }
         LoggedInUser loggedInUser = new LoggedInUser(result.getMd5Result() ,  username);
         loggedInUser.setResponse(result);
         repo.setLoggedInUser(loggedInUser);

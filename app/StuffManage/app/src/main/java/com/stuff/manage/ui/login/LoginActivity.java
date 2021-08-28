@@ -1,6 +1,6 @@
 package com.stuff.manage.ui.login;
 
-import android.app.Activity;
+
 
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -29,11 +30,13 @@ import android.widget.Toast;
 import com.stuff.manage.MainActivity;
 import com.stuff.manage.R;
 import com.stuff.manage.data.Constant;
+import com.stuff.manage.data.LoginDataSource;
 import com.stuff.manage.data.LoginRepository;
 import com.stuff.manage.data.model.LoggedInUser;
 
 public class LoginActivity extends AppCompatActivity {
 
+    private static final String TAG = "LoginActivity";
     private LoginViewModel loginViewModel;
     private LoggedInUser data;
 
@@ -171,10 +174,19 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private boolean isAlreadyLoggedin(){
+        boolean clear = getIntent().getBooleanExtra(Constant.CLEAR_LOGIN_DATA, false);
+        if (clear) {
+            clearPersistLoginData();
+            return false;
+        }
+
         data = getLoginDataFromPersist();
         if (data == null) return false;
         if (data.getResponse() == null) return false;
-        return  ("OK".equalsIgnoreCase(data.getResponse().getRet()));
+        LoginRepository repo = LoginRepository.getInstance(new LoginDataSource());
+        repo.setLoggedInUser(data);
+        Log.d(TAG, "user: " + data.getDisplayName() + ", userId: " + data.getUserId());
+        return  repo.isLoggedIn();
     }
 
     private LoggedInUser getLoginDataFromPersist(){

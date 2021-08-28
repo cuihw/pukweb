@@ -27,8 +27,8 @@ else
 	sql = sql + "OR ename LIKE '%" + text1 + "%'"
 	sql = sql + "OR casno LIKE '%" + text1 + "%'"
 	sql = sql + "OR mformula LIKE '%" + text1 + "%'"
-	sql = sql + "OR mweight LIKE '%" + text1 + "%'" 
-	sql = sql + "OR place LIKE '%" + text1 + "%'" 
+	sql = sql + "OR mweight LIKE '%" + text1 + "%'"
+	sql = sql + "OR place LIKE '%" + text1 + "%'"
 	sql = sql + "OR buyer LIKE '%" + text1 + "%'"
 	sql = sql + "OR other LIKE '%" + text1 + "%'"
 	rs.open sql,conn,1,1
