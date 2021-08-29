@@ -55,7 +55,6 @@ set JSON = New JSONobject
             ret = "ok"
             message = "update data sucessed."
         end if
-
     end if
 
     JSON.add "ret", ret

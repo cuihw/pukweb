@@ -1,5 +1,13 @@
 package com.stuff.manage.data.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import com.google.gson.Gson;
+import com.stuff.manage.tools.StringUtils;
+
+import java.util.GregorianCalendar;
+
 public class ItemData {
     private int ID;
     private String cname;
@@ -81,5 +89,14 @@ public class ItemData {
 
     public String getOther() {
         return this.other;
+    }
+
+    public static String toJsonString(ItemData data) {
+        Gson gson = new Gson();
+        return gson.toJson(data);
+    }
+
+    public static ItemData getObjectStr(String str) {
+        return StringUtils.getDataFromString(str, ItemData.class);
     }
 }

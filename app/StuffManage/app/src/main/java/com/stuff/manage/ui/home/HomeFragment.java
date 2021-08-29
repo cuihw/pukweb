@@ -68,7 +68,6 @@ public class HomeFragment extends Fragment {
             }
         });
 
-
         initView();
         return root;
     }
@@ -87,15 +86,21 @@ public class HomeFragment extends Fragment {
             }
         }
     }
-
+    List<ItemData> listData;
     private void updataListView(AllDatas datas) {
-        List<ItemData> data = datas.getData();
-        adapter.setList(data);
+        listData = datas.getData();
+        adapter.setList(listData);
     }
 
     private void initView() {
         adapter = new StuffAdapter(getContext());
         listview.setAdapter(adapter);
+        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                detailData(position);
+            }
+        });
 
         listview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -139,16 +144,25 @@ public class HomeFragment extends Fragment {
     }
 
     private void detailData(int position) {
-        Toast.makeText(getContext(), "detailData", Toast.LENGTH_SHORT).show();
+        Log.d(TAG, "detail data");
+        MainActivity activity = (MainActivity) getActivity();
+
+        ItemData itemData = getItemData(position);
+        if (itemData == null) return;
+        activity.goToDetailFragment(itemData, Constant.ACTION_SHOW_DATA);
     }
 
     private void modifyData(int position) {
         Toast.makeText(getContext(), "modifyData", Toast.LENGTH_SHORT).show();
     }
 
-    private void deleteData(int position) {
+    private ItemData getItemData(int position) {
+        if (listData == null) return null;
+        if (listData.size() < (position + 1)) return null;
+        return listData.get(position);
+    }
 
-        Toast.makeText(getContext(), "deleteData", Toast.LENGTH_SHORT).show();
+    private void deleteData(int position) {
         if (CacheData.cAllDatas == null) return;
         if (CacheData.cAllDatas.getData() == null) return;
         if (CacheData.cAllDatas.getData().size() <= position) return;

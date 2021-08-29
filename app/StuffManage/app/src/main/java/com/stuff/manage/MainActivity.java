@@ -11,6 +11,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 import com.stuff.manage.data.Constant;
+import com.stuff.manage.data.model.ItemData;
 import com.stuff.manage.ui.login.LoginActivity;
 
 import androidx.annotation.NonNull;
@@ -41,15 +42,13 @@ public class MainActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_add, R.id.nav_search, R.id.nav_admin)
+                R.id.nav_home, R.id.nav_add, R.id.nav_search, R.id.nav_admin, R.id.nav_detail)
                 .setDrawerLayout(drawer)
                 .build();
 
         navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-
-
 
         drawer.addDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
@@ -100,5 +99,12 @@ public class MainActivity extends AppCompatActivity {
 
     public void goToMainFragment() {
         navController.navigate(R.id.nav_home);
+    }
+
+    public void goToDetailFragment(ItemData itemData, int actionShowData) {
+        Bundle args = new Bundle();
+        args.putString("ItemData", ItemData.toJsonString(itemData));
+        args.putInt("action", actionShowData);
+        navController.navigate(R.id.nav_detail, args);
     }
 }
