@@ -9,19 +9,18 @@
     set JSON = New JSONobject
 
     ' check the user sessionId was legal
-    dim sessionId, isLogin
+    dim sessionId, isLogin, ret,message
     sessionId = request("sessionId")
     isLogin = verifySessionId(sessionId)
 
     if isLogin = False then
-        JSON.add "ret",  "error"
-        Log "user was not login"
+        ret = "error"
         message = "user was not login"
     else
         '========================================
         '添加记录
         dim curaction, rs , sql
-        dim cname, ename,casno,mformula,mweight, place, buyer, other , message
+        dim cname, ename,casno,mformula,mweight, place, buyer, other
         cname = request("cname")
         ename = request("ename")
         casno = request("casno")
@@ -31,12 +30,9 @@
         buyer = request("buyer")
         other = request("other")
     
-        Log "ready to write database."
-        Log "mweight: "& mweight
         if  trim(cname) ="" or trim(ename) ="" or trim(mweight) ="" or trim(place) =""  then
             message = "cname， ename, mweitht, plase can not be empty string. "
         elseif  IsNumeric(mweight) = True then
-            Log "get sql statement."
             ' Mobile will check the varity cname, ename ,mweight, place and  IsNumeric mweight
             sql = "INSERT INTO reagent(cname,ename,casno,mformula,mweight,place,buyer,other) VALUES("
    	        sql = sql + "'" + cname + "',"
@@ -50,22 +46,21 @@
 	        conn.execute(sql)
 
 	        if err.number <> 0 then
-                message = "无法保存,数据库操作出错"
-                JSON.add "ret", "error"
-                Log "database error"
+                message = "can not add a record, database error"
+                ret = "error"
 	        else
-                message = "记录已经添加到数据库"
-                JSON.add "ret", "ok"
-                Log "database OK"
+                message = "Data was added successfully."
+                ret = "ok"
 	        end if
         else 
              message = "mweight was not numberic"
         end if 
-        JSON.add "message", message
         set rs = nothing
         call endconnection()
     end if
-    
-    response.write JSON.write()
 
+    JSON.add "ret",  ret
+    JSON.add "message", message
+
+    response.write JSON.write()
  %>

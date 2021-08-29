@@ -7,18 +7,18 @@ import com.google.gson.Gson;
  */
 public class LoggedInUser {
 
-    private String userId;
+    private String sessionId;
     private String displayName;
 
     private LoginResponse response;
 
-    public LoggedInUser(String userId, String displayName) {
-        this.userId = userId;
+    public LoggedInUser(String seId, String displayName) {
+        this.sessionId = seId;
         this.displayName = displayName;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getSessionId() {
+        return sessionId;
     }
 
     public String getDisplayName() {

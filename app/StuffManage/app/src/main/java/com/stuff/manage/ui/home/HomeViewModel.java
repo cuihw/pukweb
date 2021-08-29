@@ -78,7 +78,7 @@ public class HomeViewModel extends ViewModel {
         LoginRepository repo = LoginRepository.getInstance();
         if(repo == null) return false;
 
-        String session = repo.getUser().getUserId();
+        String session = repo.getUser().getSessionId();
 
         OkGo.<String>get(Constant.DELETE_ITEMS)
                 .params("ID", id)

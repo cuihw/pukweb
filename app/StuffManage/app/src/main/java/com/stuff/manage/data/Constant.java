@@ -21,4 +21,9 @@ public class Constant {
 
 
     public static final String CLEAR_LOGIN_DATA = "CLEAR_LOGIN_DATA";
+
+    // add item
+    public final static String ADD_ITEMS =SERVER_ADDRESS + "add_mm.asp";
+
+
 }

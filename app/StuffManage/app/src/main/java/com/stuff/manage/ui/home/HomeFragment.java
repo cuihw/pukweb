@@ -75,18 +75,15 @@ public class HomeFragment extends Fragment {
 
     private void handleDeleteResp(DeleteResp deleteResp) {
         if (deleteResp.isOk()) {
-            Toast.makeText(getContext(),"delete OK", Toast.LENGTH_SHORT);
+            Toast.makeText(getContext(),"delete OK", Toast.LENGTH_SHORT).show();
             homeViewModel.getAllData();
             return;
         } else {
             if (deleteResp.getMessage().contains("not login")) {
                 // go to login activity.
-                Toast.makeText(getContext(),deleteResp.getMessage(), Toast.LENGTH_SHORT);
-
-                Intent intent=new Intent(getContext(), LoginActivity.class);
-                intent.putExtra(Constant.CLEAR_LOGIN_DATA, true);
-                startActivity(intent);
-                getActivity().finish();
+                Toast.makeText(getContext(),deleteResp.getMessage(), Toast.LENGTH_LONG).show();
+                MainActivity act = (MainActivity)getActivity();
+                act.goToLoginActivity();
             }
         }
     }
@@ -142,7 +139,6 @@ public class HomeFragment extends Fragment {
     }
 
     private void detailData(int position) {
-
         Toast.makeText(getContext(), "detailData", Toast.LENGTH_SHORT).show();
     }
 
@@ -156,8 +152,8 @@ public class HomeFragment extends Fragment {
         if (CacheData.cAllDatas == null) return;
         if (CacheData.cAllDatas.getData() == null) return;
         if (CacheData.cAllDatas.getData().size() <= position) return;
-
         ItemData itemData = CacheData.cAllDatas.getData().get(position);
         homeViewModel.deleteItem(itemData.getID());
+        CacheData.cAllDatas.getData().remove(itemData);
     }
 }

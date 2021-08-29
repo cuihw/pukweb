@@ -1,5 +1,6 @@
 package com.stuff.manage;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -9,6 +10,8 @@ import android.view.Menu;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
+import com.stuff.manage.data.Constant;
+import com.stuff.manage.ui.login.LoginActivity;
 
 import androidx.annotation.NonNull;
 import androidx.navigation.NavController;
@@ -23,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
     private AppBarConfiguration mAppBarConfiguration;
+
+    private NavController navController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,9 +44,12 @@ public class MainActivity extends AppCompatActivity {
                 R.id.nav_home, R.id.nav_add, R.id.nav_search, R.id.nav_admin)
                 .setDrawerLayout(drawer)
                 .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+
+        navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+
 
         drawer.addDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
@@ -64,7 +72,16 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+        getNavController();
     }
+
+    public NavController getNavController() {
+        // Log.d(TAG, "getNavController nav_add");
+        // navController.navigate(R.id.nav_add);
+        return navController;
+    }
+
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -72,5 +89,16 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    public void goToLoginActivity() {
+        Intent intent=new Intent(this, LoginActivity.class);
+        intent.putExtra(Constant.CLEAR_LOGIN_DATA, true);
+        startActivity(intent);
+        finish();
+    }
+
+    public void goToMainFragment() {
+        navController.navigate(R.id.nav_home);
     }
 }

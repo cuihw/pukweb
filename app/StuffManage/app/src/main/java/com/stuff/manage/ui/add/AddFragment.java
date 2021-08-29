@@ -1,5 +1,9 @@
 package com.stuff.manage.ui.add;
 
+import android.app.AlertDialog;
+import android.app.Notification;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -16,9 +20,13 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.stuff.manage.MainActivity;
 import com.stuff.manage.R;
+import com.stuff.manage.data.Constant;
+import com.stuff.manage.data.model.ActResponse;
 import com.stuff.manage.data.model.ItemData;
 import com.stuff.manage.tools.StringUtils;
+import com.stuff.manage.ui.login.LoginActivity;
 
 //nav_add
 public class AddFragment extends Fragment {
@@ -53,16 +61,65 @@ public class AddFragment extends Fragment {
 
         add_btn = root.findViewById(R.id.add_btn);
 
-        addViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        addViewModel.getActRespLiveData().observe(getViewLifecycleOwner(), new Observer<ActResponse>() {
             @Override
-            public void onChanged(@Nullable String s) {
+            public void onChanged(@Nullable ActResponse s) {
                 // textView.setText(s);
+                handlerActResponse(s);
             }
         });
         add_btn.setOnClickListener(v->{
             addItem();
         });
         return root;
+    }
+
+    private void clearEditText() {
+        cname.setText("");
+        ename.setText("");
+        casno.setText("");
+        mformula.setText("");
+        mweight.setText("");
+        place.setText("");
+        buyer.setText("");
+        other.setText("");
+    }
+
+    private void handlerActResponse(ActResponse s) {
+        if (s.isOk()) {
+            clearEditText();
+            showDialog("添加成功，是否继续添加");
+        } else {
+            Toast.makeText(getContext(), s.getMessage(),Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private  AlertDialog alertdialog;
+    private void showDialog(String message) {
+        if (alertdialog != null ) {
+            alertdialog.dismiss();
+            alertdialog =  null;
+        }
+
+        AlertDialog.Builder alertdialogbuilder = new AlertDialog.Builder(getContext());
+        alertdialogbuilder.setMessage(message);
+        alertdialogbuilder.setPositiveButton("是", new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                alertdialog.dismiss();
+            }
+        });
+        alertdialogbuilder.setNeutralButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                alertdialog.dismiss();
+                // go to Main fragment.
+                MainActivity activity = (MainActivity) getActivity();
+                activity.goToMainFragment();
+            }
+        });
+        alertdialog = alertdialogbuilder.create();
+        alertdialog.show();
     }
 
     private void addItem() {
@@ -116,6 +173,14 @@ public class AddFragment extends Fragment {
         itemData.setPlace(placeStr);
         itemData.setBuyer(buyerStr);
         itemData.setOther(otherStr);
+
+        int ret = addViewModel.addNewItem(itemData);
+
+        if (ret == AddViewModel.NOT_LOGIN) {
+            Toast.makeText(getContext(), "you are not login", Toast.LENGTH_LONG).show();
+            MainActivity act = (MainActivity) getActivity();
+            act.goToLoginActivity();
+        }
     }
 
     private void notifyError(String message) {

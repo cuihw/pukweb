@@ -185,7 +185,7 @@ public class LoginActivity extends AppCompatActivity {
         if (data.getResponse() == null) return false;
         LoginRepository repo = LoginRepository.getInstance(new LoginDataSource());
         repo.setLoggedInUser(data);
-        Log.d(TAG, "user: " + data.getDisplayName() + ", userId: " + data.getUserId());
+        Log.d(TAG, "user: " + data.getDisplayName() + ", userId: " + data.getSessionId());
         return  repo.isLoggedIn();
     }
 
