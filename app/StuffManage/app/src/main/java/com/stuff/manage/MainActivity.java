@@ -97,7 +97,9 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
 
-    public void goToMainFragment() {
+    public void goToMainFragment(boolean isfreshData) {
+        Bundle args = new Bundle();
+        args.putBoolean("isfreshData", isfreshData);
         navController.navigate(R.id.nav_home);
     }
 

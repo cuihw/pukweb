@@ -1,5 +1,8 @@
 package com.stuff.manage.ui.detail;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -7,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -18,7 +22,9 @@ import androidx.lifecycle.ViewModelProvider;
 import com.stuff.manage.MainActivity;
 import com.stuff.manage.R;
 import com.stuff.manage.data.Constant;
+import com.stuff.manage.data.model.DeleteResp;
 import com.stuff.manage.data.model.ItemData;
+import com.stuff.manage.tools.ToastT;
 
 public class DetailFragment extends Fragment {
 
@@ -41,16 +47,29 @@ public class DetailFragment extends Fragment {
         detailViewModel =
                 new ViewModelProvider(this).get(DetailViewModel.class);
         View root = inflater.inflate(R.layout.fragment_detail, container, false);
+        detailBtnLayout = root.findViewById(R.id.detail_btn_layout);
+        modifyBtnLayout = root.findViewById(R.id.modify_btn_layout);
+
+        // confirm_btn 确认修改
+        View confirmBtn = root.findViewById(R.id.confirm_btn);
+        confirmBtn.setOnClickListener(view->confirmModifyItemData());
+
+
+        // cancel_btn
+        View cancelBtn = root.findViewById(R.id.cancel_btn);
+        cancelBtn.setOnClickListener(v->goHomeFragment(false));
 
         View delBtn = root.findViewById(R.id.del_btn);
-        delBtn.setOnClickListener(v->{});
+        delBtn.setOnClickListener(v->{
+            // 删除后退出此页面.
+            deleteItemData();
+        });
 
         View modifyBtn = root.findViewById(R.id.modify_btn);
         modifyBtn.setOnClickListener(v->{
             MainActivity activity = (MainActivity) getActivity();
             activity.goToDetailFragment(mItemData, Constant.ACTION_MODIFY_DATA);
         });
-
 
         cname = root.findViewById(R.id.cname);
         ename = root.findViewById(R.id.ename);
@@ -62,16 +81,67 @@ public class DetailFragment extends Fragment {
         other = root.findViewById(R.id.other);
         identify = root.findViewById(R.id.identify);
 
-        detailViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        detailViewModel.getmDeleteResp().observe(getViewLifecycleOwner(), new Observer<DeleteResp>() {
             @Override
-            public void onChanged(@Nullable String s) {
+            public void onChanged(@Nullable DeleteResp s) {
 
-
+                ToastT.show(getContext(),s.getMessage());
+                if (s.isOk()) {
+                    goHomeFragment(true);
+                } else if (s.getMessage().contains("not login")) {
+                    goLogin();
+                }
             }
         });
         return root;
     }
+
+    private void confirmModifyItemData() {
+
+    }
+
+    private void goLogin() {
+        MainActivity act = (MainActivity)getActivity();
+        act.goToLoginActivity();
+    }
+
+    private Dialog mAlertdialog;
+
+    private void deleteItemData() {
+        // 弹出对话框，确认删除
+        AlertDialog.Builder alertdialogbuilder = new AlertDialog.Builder(getContext());
+        alertdialogbuilder.setTitle("确认删除");
+        alertdialogbuilder.setMessage("是否确认删除此条记录？");
+        alertdialogbuilder.setPositiveButton("是", new DialogInterface.OnClickListener(){
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                mAlertdialog.dismiss();
+                detailViewModel.deleteItemData(mItemData);
+            }
+        });
+        alertdialogbuilder.setNeutralButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                mAlertdialog.dismiss();
+            }
+        });
+        mAlertdialog = alertdialogbuilder.create();
+        mAlertdialog.show();
+    }
+
+    private void goHomeFragment(boolean b){
+        // go to Main fragment.
+        MainActivity activity = (MainActivity) getActivity();
+        boolean isfreshData = true;
+        activity.goToMainFragment(isfreshData);
+    }
+
     ItemData mItemData;
+
+    LinearLayout detailBtnLayout;  // detail_btn_layout
+    LinearLayout modifyBtnLayout;  // modify_btn_layout
+
     @Override
     public void onStart() {
         super.onStart();
@@ -91,8 +161,15 @@ public class DetailFragment extends Fragment {
 
         if (action == Constant.ACTION_SHOW_DATA) {
             isShowData = true;
+            detailBtnLayout.setVisibility(View.VISIBLE);
+            modifyBtnLayout.setVisibility(View.GONE);
+        } else  {
+            detailBtnLayout.setVisibility(View.GONE);
+            modifyBtnLayout.setVisibility(View.VISIBLE);
         }
         setEditText(mItemData);
+
+
     }
 
     private void setEditText(ItemData itemData) {
@@ -105,7 +182,7 @@ public class DetailFragment extends Fragment {
         place.setText(itemData.getPlace());
         buyer.setText(itemData.getBuyer());
         other.setText(itemData.getOther());
-        setAllEditable(!isShowData);
+        if(isShowData) setAllEditable(false);
     }
 
     private void setAllEditable(boolean editable) {

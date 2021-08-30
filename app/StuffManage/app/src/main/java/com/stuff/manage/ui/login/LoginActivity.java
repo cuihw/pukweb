@@ -25,7 +25,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.stuff.manage.MainActivity;
 import com.stuff.manage.R;
@@ -33,6 +32,7 @@ import com.stuff.manage.data.Constant;
 import com.stuff.manage.data.LoginDataSource;
 import com.stuff.manage.data.LoginRepository;
 import com.stuff.manage.data.model.LoggedInUser;
+import com.stuff.manage.tools.ToastT;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -47,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
         if (isAlreadyLoggedin()) {
             String welcome = getString(R.string.welcome) + data.getDisplayName();
             // TODO : initiate successful logged in experience
-            Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
+            ToastT.show(this, welcome);
             goMainActivity();
             finish();
         }
@@ -151,12 +151,13 @@ public class LoginActivity extends AppCompatActivity {
 
     private void updateUiWithUser(LoggedInUserView model) {
         String welcome = getString(R.string.welcome) + model.getDisplayName();
-        // TODO : initiate successful logged in experience
-        Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
+
+
+        ToastT.show(this, welcome);
     }
 
     private void showLoginFailed(@StringRes Integer errorString) {
-        Toast.makeText(getApplicationContext(), errorString, Toast.LENGTH_SHORT).show();
+        ToastT.show(getApplicationContext(), errorString);
     }
 
     private void persistLoginData(LoggedInUser data) {

@@ -115,7 +115,8 @@ public class AddFragment extends Fragment {
                 alertdialog.dismiss();
                 // go to Main fragment.
                 MainActivity activity = (MainActivity) getActivity();
-                activity.goToMainFragment();
+                boolean isfreshData = true;
+                activity.goToMainFragment(isfreshData);
             }
         });
         alertdialog = alertdialogbuilder.create();

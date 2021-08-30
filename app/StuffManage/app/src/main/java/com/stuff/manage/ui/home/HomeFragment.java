@@ -25,6 +25,7 @@ import com.stuff.manage.data.Constant;
 import com.stuff.manage.data.model.AllDatas;
 import com.stuff.manage.data.model.DeleteResp;
 import com.stuff.manage.data.model.ItemData;
+import com.stuff.manage.tools.ToastT;
 import com.stuff.manage.ui.adapter.StuffAdapter;
 import com.stuff.manage.ui.login.LoginActivity;
 
@@ -72,15 +73,26 @@ public class HomeFragment extends Fragment {
         return root;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        Bundle arguments = getArguments();
+
+        if (arguments == null) return;
+        boolean isfreshData = arguments.getBoolean("isfreshData", false);
+        if (isfreshData) homeViewModel.getAllData();
+    }
+
     private void handleDeleteResp(DeleteResp deleteResp) {
         if (deleteResp.isOk()) {
-            Toast.makeText(getContext(),"delete OK", Toast.LENGTH_SHORT).show();
+            ToastT.show(getContext(),"delete OK");
             homeViewModel.getAllData();
             return;
         } else {
             if (deleteResp.getMessage().contains("not login")) {
                 // go to login activity.
-                Toast.makeText(getContext(),deleteResp.getMessage(), Toast.LENGTH_LONG).show();
+
+                ToastT.show(getContext(),deleteResp.getMessage());
                 MainActivity act = (MainActivity)getActivity();
                 act.goToLoginActivity();
             }
@@ -153,7 +165,8 @@ public class HomeFragment extends Fragment {
     }
 
     private void modifyData(int position) {
-        Toast.makeText(getContext(), "modifyData", Toast.LENGTH_SHORT).show();
+
+        ToastT.show(getContext(),"modifyData");
     }
 
     private ItemData getItemData(int position) {
