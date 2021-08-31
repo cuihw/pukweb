@@ -39,13 +39,13 @@ set JSON = New JSONobject
         id = Request("ID")
 
         sql = "UPDATE reagent SET cname='" + cname + "',"
-        sql = sql + "'" + ename + "',"
-        sql = sql + "'" + casno + "',"
-        sql = sql + "'" + mformula + "',"
-        sql = sql + "'" + mweight + "',"
-        sql = sql + "'" + place + "',"
-        sql = sql + "'" + buyer + "',"
-        sql = sql + "'" + other + "'"
+        sql = sql + "ename='" + ename + "',"
+        sql = sql + "casno='" + casno + "',"
+        sql = sql + "mformula='" + mformula + "',"
+        sql = sql + "mweight='" + mweight + "',"
+        sql = sql + "place='" + place + "',"
+        sql = sql + "buyer='" + buyer + "',"
+        sql = sql + "other='" + other + "'"
 	    sql = sql + "WHERE ID=" + id
 
 	    conn.execute sql

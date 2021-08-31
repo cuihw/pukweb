@@ -96,8 +96,6 @@ public class DetailFragment extends Fragment {
         other = root.findViewById(R.id.other);
         identify = root.findViewById(R.id.identify);
 
-
-
         detailViewModel.getmDeleteResp().observe(getViewLifecycleOwner(), new Observer<DeleteResp>() {
             @Override
             public void onChanged(@Nullable DeleteResp s) {
@@ -165,18 +163,21 @@ public class DetailFragment extends Fragment {
             notifyError("没有改动，不修改。");
             return;
         }
+        ItemData newItemData = new ItemData();
+        newItemData.setID(mItemData.getID());
 
-        mItemData.setCname(cnameStr);
-        mItemData.setEname(enameStr);
-        mItemData.setCasno(casnoStr);
-        mItemData.setMformula(mformulaStr);
-        mItemData.setMweight(mweightStr);
-        mItemData.setPlace(placeStr);
-        mItemData.setBuyer(buyerStr);
-        mItemData.setOther(otherStr);
+        if (!TextUtils.isEmpty(cnameStr)) newItemData.setCname(cnameStr);
+        if (!TextUtils.isEmpty(enameStr)) newItemData.setEname(enameStr);
+        if (!TextUtils.isEmpty(casnoStr)) newItemData.setCasno(casnoStr);
+        if (!TextUtils.isEmpty(mformulaStr)) newItemData.setMformula(mformulaStr);
+        if (!TextUtils.isEmpty(mweightStr)) newItemData.setMweight(mweightStr);
+        if (!TextUtils.isEmpty(placeStr)) newItemData.setPlace(placeStr);
+        if (!TextUtils.isEmpty(buyerStr)) newItemData.setBuyer(buyerStr);
+        if (!TextUtils.isEmpty(otherStr)) newItemData.setOther(otherStr);
 
-        detailViewModel.upDateItemdata(mItemData);
+        detailViewModel.upDateItemdata(newItemData);
 
+        Log.d(TAG, ItemData.toJsonString(newItemData));
     }
 
     private void notifyError(String message) {
@@ -255,8 +256,6 @@ public class DetailFragment extends Fragment {
             modifyBtnLayout.setVisibility(View.VISIBLE);
         }
         setEditText(mItemData);
-
-
     }
 
     private void setEditText(ItemData itemData) {
