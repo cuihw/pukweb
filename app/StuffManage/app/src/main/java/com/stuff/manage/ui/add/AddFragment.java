@@ -144,7 +144,6 @@ public class AddFragment extends Fragment {
         }
 
         String mformulaStr = mformula.getText().toString();
-
         String mweightStr = mweight.getText().toString();
         if (TextUtils.isEmpty(mweightStr)) {
             notifyError("分子量不能空");

@@ -50,6 +50,7 @@ set JSON = New JSONobject
 
 	    conn.execute sql
         if err.number <> 0 then
+            ret = "error"
             message = "update data failed."
         else 
             ret = "ok"

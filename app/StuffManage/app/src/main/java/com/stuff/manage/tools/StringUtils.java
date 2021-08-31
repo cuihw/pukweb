@@ -1,7 +1,11 @@
 package com.stuff.manage.tools;
 
+import android.text.TextUtils;
+
 import com.google.gson.Gson;
 import com.stuff.manage.data.model.LoginResponse;
+
+import org.w3c.dom.Text;
 
 import java.io.UnsupportedEncodingException;
 import java.util.regex.Matcher;
@@ -58,8 +62,6 @@ public class StringUtils {
         return true;
     }
 
-
-
     public static boolean isPureDigital(String str) {
         if (str == null || "".equals(str)){
             return false;
@@ -74,6 +76,12 @@ public class StringUtils {
         }else{
             return false;
         }
+    }
+
+    public static boolean isEqual(String a, String b) {
+        if (TextUtils.isEmpty(a) && TextUtils.isEmpty(b)) return true;
+        if (TextUtils.isEmpty(a)) return false;
+        return a.equals(b);
     }
 
 }

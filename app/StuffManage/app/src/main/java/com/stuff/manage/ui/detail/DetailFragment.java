@@ -22,8 +22,10 @@ import androidx.lifecycle.ViewModelProvider;
 import com.stuff.manage.MainActivity;
 import com.stuff.manage.R;
 import com.stuff.manage.data.Constant;
+import com.stuff.manage.data.model.ActResponse;
 import com.stuff.manage.data.model.DeleteResp;
 import com.stuff.manage.data.model.ItemData;
+import com.stuff.manage.tools.StringUtils;
 import com.stuff.manage.tools.ToastT;
 
 public class DetailFragment extends Fragment {
@@ -65,10 +67,23 @@ public class DetailFragment extends Fragment {
             deleteItemData();
         });
 
+        // modify data
         View modifyBtn = root.findViewById(R.id.modify_btn);
         modifyBtn.setOnClickListener(v->{
             MainActivity activity = (MainActivity) getActivity();
             activity.goToDetailFragment(mItemData, Constant.ACTION_MODIFY_DATA);
+        });
+
+        detailViewModel.getmActResponse().observe(getViewLifecycleOwner(), new Observer<ActResponse>() {
+            @Override
+            public void onChanged(ActResponse actResponse) {
+                ToastT.show(getContext(),actResponse.getMessage());
+                if (actResponse.isOk()) {
+                    goHomeFragment(true);
+                } else if (actResponse.getMessage().contains("not login")) {
+                    goLogin();
+                }
+            }
         });
 
         cname = root.findViewById(R.id.cname);
@@ -80,6 +95,8 @@ public class DetailFragment extends Fragment {
         buyer = root.findViewById(R.id.buyer);
         other = root.findViewById(R.id.other);
         identify = root.findViewById(R.id.identify);
+
+
 
         detailViewModel.getmDeleteResp().observe(getViewLifecycleOwner(), new Observer<DeleteResp>() {
             @Override
@@ -98,6 +115,72 @@ public class DetailFragment extends Fragment {
 
     private void confirmModifyItemData() {
 
+        String cnameStr = cname.getText().toString();
+        if (TextUtils.isEmpty(cnameStr) ) {
+            notifyError("中文名不能为空");
+            return;
+        }
+
+        String enameStr = ename.getText().toString();
+        if (TextUtils.isEmpty(enameStr) ) {
+            notifyError("英文名不能为空");
+            return;
+        }
+
+        String casnoStr = casno.getText().toString();
+
+        if (TextUtils.isEmpty(casnoStr) ) {
+            notifyError("CAS NO 不能为空");
+            return;
+        }
+
+        String mformulaStr = mformula.getText().toString();
+        String mweightStr = mweight.getText().toString();
+        if (TextUtils.isEmpty(mweightStr)) {
+            notifyError("分子量不能空");
+            return;
+        }
+
+        if (!StringUtils.isPureDigital(mweightStr)) {
+            notifyError("分子量必须是正整数");
+            return;
+        }
+
+        String placeStr = place.getText().toString();
+        if (TextUtils.isEmpty(placeStr)) {
+            notifyError("存放地点不能为空");
+            return;
+        }
+        String buyerStr = buyer.getText().toString();
+        String otherStr = other.getText().toString();
+
+        if ( StringUtils.isEqual(mItemData.getBuyer(),  buyerStr)
+                && StringUtils.isEqual(mItemData.getCname(),  cnameStr)
+                && StringUtils.isEqual(mItemData.getEname(),  enameStr)
+                && StringUtils.isEqual(mItemData.getCasno(),  casnoStr)
+                && StringUtils.isEqual(mItemData.getMformula(),  mformulaStr)
+                && StringUtils.isEqual(mItemData.getMweight(),  mweightStr)
+                && StringUtils.isEqual(mItemData.getPlace(),  placeStr)
+                && StringUtils.isEqual(mItemData.getOther(),  otherStr) ) {
+            notifyError("没有改动，不修改。");
+            return;
+        }
+
+        mItemData.setCname(cnameStr);
+        mItemData.setEname(enameStr);
+        mItemData.setCasno(casnoStr);
+        mItemData.setMformula(mformulaStr);
+        mItemData.setMweight(mweightStr);
+        mItemData.setPlace(placeStr);
+        mItemData.setBuyer(buyerStr);
+        mItemData.setOther(otherStr);
+
+        detailViewModel.upDateItemdata(mItemData);
+
+    }
+
+    private void notifyError(String message) {
+        ToastT.show(getContext(), message);
     }
 
     private void goLogin() {
@@ -117,7 +200,11 @@ public class DetailFragment extends Fragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 mAlertdialog.dismiss();
-                detailViewModel.deleteItemData(mItemData);
+                if(!detailViewModel.deleteItemData(mItemData)) {
+                    // 没有登录，转登录界面。
+                    ToastT.show(getContext(),"Please login");
+                    goLogin();
+                }
             }
         });
         alertdialogbuilder.setNeutralButton("取消", new DialogInterface.OnClickListener() {

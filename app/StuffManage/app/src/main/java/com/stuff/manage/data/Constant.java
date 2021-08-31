@@ -24,7 +24,7 @@ public class Constant {
 
     // add item
     public final static String ADD_ITEMS =SERVER_ADDRESS + "add_mm.asp";
-
+    public final static String UPDATE_ITEMS =SERVER_ADDRESS + "reviseOK_mm.asp";
 
     public static final int ACTION_SHOW_DATA = 1;
     public static final int ACTION_MODIFY_DATA = 2;
