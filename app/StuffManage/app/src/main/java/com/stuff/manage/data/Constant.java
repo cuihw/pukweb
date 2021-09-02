@@ -29,5 +29,7 @@ public class Constant {
     public static final int ACTION_SHOW_DATA = 1;
     public static final int ACTION_MODIFY_DATA = 2;
 
+    // search text
+    public final static String SEARCH =SERVER_ADDRESS + "searchre_mm.asp";
 
 }

@@ -1,22 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.search.SlideshowFragment">
-
-    <TextView
-        android:id="@+id/text_slideshow"
+    android:orientation="vertical"
+    android:padding="@dimen/fab_margin"
+    tools:context=".ui.search.SearchFragment">
+    <RelativeLayout
+        android:id="@+id/search_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:orientation="horizontal"
+        >
+
+        <EditText
+            android:id="@+id/search_text"
+            android:hint="@string/search_key"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/search_btn"
+            />
+        <Button
+            android:id="@+id/search_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/menu_search"
+            android:drawableLeft="@drawable/ic_menu_search_holo_light"
+            android:layout_alignParentRight="true"
+            />
+    </RelativeLayout>
+
+    <TextView
+        android:visibility="gone"
+        android:paddingTop="@dimen/top_padding"
+        android:text="@string/menu_search_history"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <ListView
+        android:layout_below="@+id/search_layout"
+        android:id="@+id/search_result"
+        android:layout_width="match_parent"
+        android:layout_above="@+id/search_result_total"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/search_result_total"
+        android:paddingTop="@dimen/top_padding"
+        android:layout_alignParentBottom="true"
+        android:text="一共搜索到？条"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</RelativeLayout>

@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -165,8 +166,16 @@ public class HomeFragment extends Fragment {
     }
 
     private void modifyData(int position) {
+        // goToMifydata();
+        ItemData itemData = getItemData(position);
+        if (itemData == null) {
+            ToastT.show(getContext(), "修改数据错误");
+            return;
+        }
 
-        ToastT.show(getContext(),"modifyData");
+        MainActivity act = (MainActivity) getActivity();
+
+        act.goToDetailFragment(itemData, Constant.ACTION_MODIFY_DATA);
     }
 
     private ItemData getItemData(int position) {

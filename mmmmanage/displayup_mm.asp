@@ -14,8 +14,6 @@ set rs = server.createobject("adodb.recordset")
 sql = "SELECT * FROM reagent "
 rs.open sql, conn, 1, 1
 
-
-
 if err.number <> 0 then
     ret = "error"
     message = "database error."

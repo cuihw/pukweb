@@ -109,4 +109,6 @@ public class MainActivity extends AppCompatActivity {
         args.putInt("action", actionShowData);
         navController.navigate(R.id.nav_detail, args);
     }
+
+
 }

@@ -15,7 +15,6 @@ dim sessionId, isLogin , message, ret
 sessionId = request("sessionId")
 isLogin = verifySessionId(sessionId)
 
-    
 if isLogin = False then
     ret = "error"
     message = "User was not login"
@@ -38,7 +37,9 @@ else
     else 
         ret = "OK"
         message = "database search ok."
+        JSON.add "total" , rs.RecordCount
         JSON.LoadRecordset rs
+        
     end if 
 end if 
 
