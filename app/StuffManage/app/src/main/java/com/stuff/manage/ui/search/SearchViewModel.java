@@ -7,27 +7,30 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.lzy.okgo.OkGo;
-import com.lzy.okgo.callback.Callback;
 import com.lzy.okgo.callback.StringCallback;
-import com.lzy.okgo.model.Progress;
 import com.lzy.okgo.model.Response;
-import com.lzy.okgo.request.base.Request;
 import com.stuff.manage.data.Constant;
 import com.stuff.manage.data.LoginRepository;
-import com.stuff.manage.tools.ToastT;
+import com.stuff.manage.data.model.SearchResultData;
+import com.stuff.manage.tools.StringUtils;
 
 public class SearchViewModel extends ViewModel {
 
-    private MutableLiveData<String> mText;
+    private MutableLiveData<String> mTotal;
     private String TAG = "SearchViewModel";
 
+    private MutableLiveData<SearchResultData> resultData;
+
     public SearchViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is slideshow fragment");
+        mTotal = new MutableLiveData<>();
+        resultData = new MutableLiveData<>();
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    public LiveData<String> getTotal() {
+        return mTotal;
+    }
+    public LiveData<SearchResultData> getResultData() {
+        return resultData;
     }
 
     public boolean searchRequest(String sKey) {
@@ -43,7 +46,8 @@ public class SearchViewModel extends ViewModel {
             @Override
             public void onSuccess(Response<String> response) {
                 String body = response.body();
-
+                SearchResultData data = StringUtils.getDataFromString(body, SearchResultData.class);
+                resultData.setValue(data);
             }
 
             @Override

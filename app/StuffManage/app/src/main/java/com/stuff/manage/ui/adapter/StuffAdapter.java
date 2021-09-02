@@ -27,7 +27,7 @@ public class StuffAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int position) {
+    public ItemData getItem(int position) {
         if (list == null)  return null;
         if (position > (getCount() -1)) return null;
         return list.get(position);

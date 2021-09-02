@@ -39,4 +39,8 @@ public class SearchResultData {
     public String getMessage() {
         return this.message;
     }
+
+    public boolean isOK() {
+        return "OK".equalsIgnoreCase(ret);
+    }
 }
