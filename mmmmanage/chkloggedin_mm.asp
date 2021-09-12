@@ -8,7 +8,7 @@
 
 <%
 	dim sql,  rs
-    dim name , sessionId
+    dim name , sessionId, ret, message
     name = request("uid")
 	sessionId = request("sessionId")
 
@@ -16,29 +16,33 @@
 	sql="select * from siteman where uid='" & name & "' and sessionID='" & sessionId & "' "
     rs.open sql,conn,1,1
 
+    Log sql
+
     dim JSON
     set JSON = New JSONobject
 
     if err.number<>0 then 
-		JSON.add "ret", "error"
-        JSON.add "message", "database error£º" & err.description
+		ret = "error"
+        message = "database error£º" & err.description
     else
 		if rs.bof and rs.eof then
-            JSON.add "ret","error"
-		    JSON.add "message" "Please input correctly username and password."
+            ret = "error"
+		    message = "Not logged in."
 	    else
 			if rs.RecordCount<1 then
-		       JSON.add "ret","error"
-		       JSON.add "message" "Please input correctly username and password."
+		       ret = "error"
+		       message = "Not found user."
 			else
-		       JSON.add "ret","ok"
-		       JSON.add "message" "adminOK."
+		       ret = "ok"
+		       message = "adminOK."
 			end if
 		end if
         rs.close
         set rs=nothing
 	end if
 
+    JSON.add "ret", ret
+    JSON.add "message", message 
     JSON.write 
 	call endConnection()
 %>

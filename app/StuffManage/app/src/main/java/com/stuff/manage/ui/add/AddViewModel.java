@@ -17,8 +17,6 @@ import com.stuff.manage.tools.StringUtils;
 
 public class AddViewModel extends ViewModel {
 
-    public static final int NOT_LOGIN = 100;
-    public static final int SUCCESSED = 0;
     private MutableLiveData<ActResponse> ActRespLiveData;
 
     public AddViewModel() {
@@ -33,10 +31,10 @@ public class AddViewModel extends ViewModel {
     //&mformula="mformula"&mweight=451&place="place1"&buyer="buyer"&other="other1"
     public int addNewItem(ItemData data) {
         LoginRepository repo = LoginRepository.getInstance();
-        if (repo == null) return NOT_LOGIN;
-        if (!repo.isLoggedIn()) return NOT_LOGIN;
+        if (repo == null) return Constant.NOT_LOGIN;
+        if (!repo.isLoggedIn()) return Constant.NOT_LOGIN;
         String sessionId = repo.getUser().getSessionId();
-        if (TextUtils.isEmpty(sessionId)) return NOT_LOGIN;
+        if (TextUtils.isEmpty(sessionId)) return Constant.NOT_LOGIN;
 
         OkGo.<String>get(Constant.ADD_ITEMS).params("cname", data.getCname())
                 .params("ename", data.getEname())
@@ -57,7 +55,7 @@ public class AddViewModel extends ViewModel {
 
                 });
 
-        return SUCCESSED;
+        return Constant.SUCCESSED;
     }
 
     private void notifyResult(ActResponse resp) {

@@ -176,7 +176,7 @@ public class AddFragment extends Fragment {
 
         int ret = addViewModel.addNewItem(itemData);
 
-        if (ret == AddViewModel.NOT_LOGIN) {
+        if (ret == Constant.NOT_LOGIN) {
             Toast.makeText(getContext(), "you are not login", Toast.LENGTH_LONG).show();
             MainActivity act = (MainActivity) getActivity();
             act.goToLoginActivity();

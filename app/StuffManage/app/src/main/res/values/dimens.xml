@@ -8,5 +8,6 @@
     <dimen name="top_padding">16dp</dimen>
     <dimen name="title_size">25sp</dimen>
     <dimen name="text_size">16sp</dimen>
+    <dimen name="nav_header">80dp</dimen>
 
 </resources>

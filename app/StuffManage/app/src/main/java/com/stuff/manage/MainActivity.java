@@ -33,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        checkLogin();
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -73,6 +75,11 @@ public class MainActivity extends AppCompatActivity {
         });
 
         getNavController();
+    }
+
+    private void checkLogin() {
+        //http://localhost:60425/mmmmanage/chkloggedin_mm.asp?uid=wangbw&sessionId=7818c88d9dfdbfb7e19c77362f0e0820
+
     }
 
     public NavController getNavController() {

@@ -18,6 +18,9 @@ import com.stuff.manage.tools.StringUtils;
 public class HomeViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
+
+    private MutableLiveData<Boolean> ServerError;
+
     private int currentDataPage = 1;
 
     private MutableLiveData<AllDatas> allDatas;
@@ -28,6 +31,7 @@ public class HomeViewModel extends ViewModel {
     public HomeViewModel() {
         allDatas = new MutableLiveData<>();
         deleteResp = new MutableLiveData<>();
+        ServerError =  new MutableLiveData<>();
         getAllData();
     }
 
@@ -44,7 +48,17 @@ public class HomeViewModel extends ViewModel {
                         CacheData.cAllDatas = datas;
                         allDatas.setValue(datas);
                     }
+
+                    @Override
+                    public void onFinish() {
+                        super.onFinish();
+                        handlerServerError();
+                    }
                 });
+    }
+
+    private void handlerServerError() {
+        ServerError.setValue(true);
     }
 
     public LiveData<String> getText() {
@@ -67,6 +81,10 @@ public class HomeViewModel extends ViewModel {
     public LiveData<AllDatas> getAllDatas() {
         return allDatas;
     }
+    public LiveData<Boolean> getServerError() {
+        return ServerError;
+    }
+
 
     public void setLivDatas(AllDatas datas){
         allDatas.setValue(datas);

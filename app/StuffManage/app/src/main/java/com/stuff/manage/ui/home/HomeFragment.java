@@ -70,6 +70,13 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        homeViewModel.getServerError().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if (aBoolean) ToastT.show(getContext() , "服务器错误，请检查服务器设置"  );
+            }
+        });
+
         initView();
         return root;
     }
@@ -92,7 +99,6 @@ public class HomeFragment extends Fragment {
         } else {
             if (deleteResp.getMessage().contains("not login")) {
                 // go to login activity.
-
                 ToastT.show(getContext(),deleteResp.getMessage());
                 MainActivity act = (MainActivity)getActivity();
                 act.goToLoginActivity();
