@@ -11,11 +11,15 @@
 <meta name="Microsoft Border" content="none">
 </head>
 <body topmargin="20">
-
 <% 
 dim curaction,rs
 dim sql
 curaction = request("action")
+dim datecreate
+
+datecreate = Date() &""
+
+Response.Write datecreate
 
 '添加记录
 if curaction = "newsave" then
@@ -32,15 +36,19 @@ if curaction = "newsave" then
 		response.write "<script language=javascript> alert('请输入存放地点！'); history.back(); </script>"
 	end if
   if IsNumeric(request("mweight")) then
-	sql = "INSERT INTO reagent(cname,ename,casno,mformula,mweight,place,buyer,other) VALUES("
+	sql = "INSERT INTO reagent(cname,ename,casno,mformula,mweight,place, buy_number, buyer,buy_time,other) VALUES("
 	sql = sql + "'" + request("cname") + "',"
 	sql = sql + "'" + request("ename") + "',"
 	sql = sql + "'" + request("casno") + "',"
-	sql = sql + "'" + request("mformula") + "',"
+	sql = sql + "'" + request("mformular") + "',"
 	sql = sql + "'" + request("mweight") + "',"
 	sql = sql + "'" + request("place") + "',"
+    
+	sql = sql + "'" + request("buy_number") + "',"
 	sql = sql + "'" + request("buyer") + "',"
+    sql = sql + "'" + datecreate + "',"
 	sql = sql + "'" + request("other") + "')"
+    Response.Write sql
 	conn.execute(sql)
 	if err.number <> 0 then
 		response.write "<script language=javascript> alert('无法保存,数据库操作出错。'); history.back(); </script>"
@@ -95,6 +103,12 @@ end if
 <tr>
     <td width=89 align="right"><b><font size="2">存放地点：</font></b></td>
     <td width=824> <font size="2"> <input type="Text" name="place" size=78 > （必填）
+	</font>
+	</td>
+</tr>
+<tr>
+    <td width=89 align="right"><b><font size="2">数量：</font></b></td>
+    <td width=824> <font size="2"> <input type="Text" name="buy_number" size=78 > （必填）
 	</font>
 	</td>
 </tr>

@@ -51,8 +51,8 @@ rs.open sql, conn, 1, 1
 			response.write "<td><font size=2>" + " " + "</td>"
 		end if
     ' number ÊıÁ¿
-		if rs("number") <> "" then
-			response.write "<td><font size=2 color=red>" + rs("number") + "</font></td>"
+		if rs("buy_number") <> "" then
+			response.write "<td><font size=2 color=red>" + rs("buy_number") + "</font></td>"
 		else
 			response.write "<td><font size=2>" + " " + "</td>"
 		end if
