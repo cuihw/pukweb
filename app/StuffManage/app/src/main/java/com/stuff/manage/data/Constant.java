@@ -2,7 +2,8 @@ package com.stuff.manage.data;
 
 public class Constant {
 
-    public final static String SERVER_ADDRESS = "http://192.168.2.43/mmmmanage/";
+    //192.168.123.200/mmm/mmmmanage^M
+    public final static String SERVER_ADDRESS = "http://192.168.123.200/mmm/mmmmanage";
 
     public static final int NOT_LOGIN = 100;
 
