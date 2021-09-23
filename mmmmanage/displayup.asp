@@ -25,7 +25,7 @@ rs.open sql, conn, 1, 1
 		else
 			response.write "<td>" + " " + "</td>"
 		end if
-		if cstr(rs("ename")) <> "" then
+		if rs("ename") <> "" then
 			response.write "<td align=right><font size=2>"  + rs("ename") + "</font></td>"
 		else
 			response.write "<td>" + " " + "</td>"
